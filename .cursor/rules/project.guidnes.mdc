@@ -1,0 +1,81 @@
+---
+description: Project-wide coding standards and engineering guidelines for the Live Football World Cup Scoreboard.
+alwaysApply: true
+---
+
+# Project Guidelines
+
+## 1. Inspect the Existing Project
+
+- Inspect the project structure, `package.json`, existing Cursor rules, and relevant source files before making changes.
+- Understand the existing architecture, dependencies, naming conventions, and testing setup.
+- Reuse existing components, utilities, and patterns when appropriate.
+- Do not replace working code or introduce new dependencies without a clear reason.
+- If requirements are ambiguous, identify the ambiguity and clarify important assumptions before implementing.
+
+## 2. TypeScript and React
+
+- Use TypeScript in strict mode.
+- Avoid `any`. Use a specific type, `unknown`, or generics where appropriate.
+- Keep components focused on rendering and user interaction.
+- Extract reusable logic into functions or custom hooks when this improves clarity.
+- Follow React conventions and use stable, meaningful keys when rendering lists.
+- Never mutate React state directly. Use immutable updates.
+- Do not add `useMemo`, `useCallback`, or `React.memo` without a measurable or clearly justified benefit.
+- Avoid unnecessary abstractions, generic frameworks, and premature optimization.
+
+## 3. Business Logic
+
+- Keep business logic separate from JSX whenever practical.
+- Extract match calculations, sorting, validation, and state transitions into clear functions when appropriate.
+- Keep components readable and avoid deeply nested conditional rendering.
+- Use descriptive names for variables, functions, and types.
+- Define shared constants for repeated values when this improves consistency.
+- Avoid duplicating business rules across components.
+
+## 4. Scoreboard Requirements
+
+- Follow the exercise requirements as the source of truth.
+- Represent a match consistently, including its teams, score, and status when required by the specification.
+- Keep score updates and match state transitions predictable.
+- Implement match ordering according to the specified rules, not incidental array or rendering order.
+- Handle empty states, invalid input, and boundary cases.
+- Do not invent additional product requirements. Document meaningful assumptions and trade-offs in `README.md`.
+
+## 5. Testing
+
+- Use Vitest and React Testing Library for unit and component tests.
+- Test observable behavior and business rules rather than implementation details.
+- Cover important edge cases, including score updates, match ordering, validation, and empty states where applicable.
+- Keep tests deterministic and independent.
+- Add or update tests when changing existing behavior.
+- Do not introduce Jest unless explicitly required by the project.
+
+## 6. Code Quality and Tooling
+
+- Follow the existing ESLint and Prettier configuration.
+- Keep changes focused on the requested task.
+- Do not disable lint rules or weaken TypeScript settings merely to make checks pass.
+- Avoid unrelated refactoring and unnecessary dependencies.
+- Preserve existing project conventions unless there is a clear reason to change them.
+
+## 7. Verification
+
+After meaningful changes:
+
+1. Run the relevant tests.
+2. Run `npm run lint`.
+3. Run `npm run format:check`.
+4. Run `npm run build`.
+
+Run the checks supported by the current project configuration. If a command fails, investigate and fix the issue where appropriate.
+
+Never claim that tests, lint, formatting checks, or the production build passed unless they were actually executed successfully.
+
+## 8. Git and Documentation
+
+- Keep changes focused and commits descriptive.
+- Do not commit secrets, generated artifacts, or local environment files.
+- Keep `README.md` accurate and document relevant assumptions and trade-offs.
+- Maintain `AI.md` when AI assistance materially contributes to implementation.
+- Keep the required product-feature commit separate from initial project setup, as specified by the exercise.
