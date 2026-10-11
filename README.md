@@ -45,11 +45,27 @@ acceptable compromise for a static GitHub Pages deployment.
 The routing strategy can be revisited if the application
 moves to hosting with native SPA fallback support.
 
-### Routing
+### End-to-End Testing
 
-The application uses hash-based routing so that every view can be opened
-directly when deployed to GitHub Pages. The initial views are available at
-`#/matches` and `#/finished`.
+Install the Chromium browser used by Playwright:
+
+```bash
+npx playwright install chromium
+```
+
+Run the E2E suite against a production build:
+
+```bash
+npm run test:e2e
+```
+
+Use `npm run test:e2e:ui` for Playwright's interactive UI mode.
+
+CI runs quality checks first and then the Chromium E2E suite. The deploy
+workflow only runs after the complete CI workflow succeeds. To prevent merging
+a failing pull request, configure `CI / quality` and `CI / e2e` as required
+checks in the `main` branch protection rules after both checks have run on
+GitHub at least once.
 
 ## Available Scripts
 
@@ -63,6 +79,8 @@ directly when deployed to GitHub Pages. The initial views are available at
 | `npm run format:check` | Check code formatting               |
 | `npm run test`         | Run unit tests once                 |
 | `npm run test:watch`   | Run tests in watch mode             |
+| `npm run test:e2e`     | Run Playwright E2E tests            |
+| `npm run test:e2e:ui`  | Open Playwright UI mode             |
 
 ## Technical Stack
 
@@ -70,6 +88,7 @@ directly when deployed to GitHub Pages. The initial views are available at
 - TypeScript
 - Vite
 - Vitest and React Testing Library
+- Playwright
 - ESLint and Prettier
 
 ## AI Usage
