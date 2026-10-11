@@ -1,13 +1,22 @@
 :root {
-  --text: #4b5563;
-  --text-h: #111827;
-  --bg: #f9fafb;
-  --border: #e5e7eb;
+  --color-navy-950: #070744;
+  --color-navy-900: #0c0b5a;
+  --color-blue-600: #2368d7;
+  --color-blue-500: #3478e5;
+  --color-red-500: #f03b45;
+  --color-surface: #ffffff;
+  --color-background: #f3f5f8;
+  --color-text: #4a5261;
+  --color-heading: #151927;
+  --color-border: #dfe3e8;
+  --color-focus: #8ab4ff;
+  --content-width: 72rem;
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
 
   font: 16px/1.5 var(--sans);
-  color: var(--text);
-  background: var(--bg);
+  color: var(--color-text);
+  background: var(--color-background);
+  color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,17 +30,20 @@
 
 body {
   margin: 0;
+  min-width: 20rem;
   min-height: 100svh;
+  background: var(--color-background);
 }
 
 #root {
   min-height: 100svh;
 }
 
-h1 {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  font-weight: 600;
-  color: var(--text-h);
-  line-height: 1.2;
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }

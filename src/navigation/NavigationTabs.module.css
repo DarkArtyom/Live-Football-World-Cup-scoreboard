@@ -1,0 +1,76 @@
+.navigation {
+  overflow-x: auto;
+  background: var(--color-navy-900);
+  scrollbar-width: thin;
+}
+
+.tabs {
+  display: flex;
+  width: min(100%, var(--content-width));
+  min-width: max-content;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.75rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tab::after {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0;
+  left: 0.75rem;
+  height: 0.1875rem;
+  background: transparent;
+  border-radius: 0.1875rem 0.1875rem 0 0;
+  content: "";
+}
+
+.tab:hover {
+  color: var(--color-surface);
+  background: rgb(255 255 255 / 6%);
+}
+
+.activeTab {
+  color: var(--color-surface);
+}
+
+.activeTab::after {
+  background: var(--color-blue-500);
+}
+
+.tab:focus-visible {
+  z-index: 1;
+  color: var(--color-surface);
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: -0.25rem;
+}
+
+@media (min-width: 48rem) {
+  .tabs {
+    padding-inline: 1.5rem;
+  }
+
+  .tab {
+    padding-inline: 1rem;
+  }
+
+  .tab::after {
+    right: 1rem;
+    left: 1rem;
+  }
+}
