@@ -57,6 +57,7 @@ Do not implement extra features that were not requested.
 ## 5. Add Tests
 
 Use Vitest and React Testing Library according to the existing project setup.
+Use Playwright when the change affects a critical user journey across components or routes.
 
 Depending on the feature, verify:
 
@@ -68,12 +69,15 @@ Depending on the feature, verify:
 - User-visible behavior for interactive components.
 
 Prefer focused tests that protect the feature's requirements. Avoid testing implementation details unnecessarily.
+Keep pure business rules and focused component edge cases in Vitest. Do not duplicate them in Playwright.
+For E2E tests, cover the complete user workflow and prefer accessible role, name, and label selectors.
 
 ## 6. Verify the Changes
 
 Run the relevant tests and, when appropriate:
 
 - `npm run test`
+- `npm run test:e2e` when the feature changes a user journey
 - `npm run lint`
 - `npm run format:check`
 - `npm run build`

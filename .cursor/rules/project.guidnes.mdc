@@ -45,10 +45,14 @@ alwaysApply: true
 ## 5. Testing
 
 - Use Vitest and React Testing Library for unit and component tests.
+- Use Playwright for critical user journeys that cross components or routes, or require real browser behavior.
 - Test observable behavior and business rules rather than implementation details.
 - Cover important edge cases, including score updates, match ordering, validation, and empty states where applicable.
 - Keep tests deterministic and independent.
 - Add or update tests when changing existing behavior.
+- Add or update an E2E test when a user-visible workflow changes.
+- Keep pure calculations, state transitions, validation edge cases, and focused component behavior in Vitest rather than duplicating them in Playwright.
+- Prefer accessible role, name, and label selectors in E2E tests. Do not rely on CSS classes or implementation details.
 - Do not introduce Jest unless explicitly required by the project.
 
 ## 6. Code Quality and Tooling
@@ -64,9 +68,10 @@ alwaysApply: true
 After meaningful changes:
 
 1. Run the relevant tests.
-2. Run `npm run lint`.
-3. Run `npm run format:check`.
-4. Run `npm run build`.
+2. Run `npm run test:e2e` when a user journey changed.
+3. Run `npm run lint`.
+4. Run `npm run format:check`.
+5. Run `npm run build`.
 
 Run the checks supported by the current project configuration. If a command fails, investigate and fix the issue where appropriate.
 

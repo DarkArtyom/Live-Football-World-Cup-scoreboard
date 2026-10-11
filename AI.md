@@ -17,6 +17,8 @@ The initial setup included:
 - Adding project-specific Cursor rules and a scoreboard implementation skill to preserve the agreed engineering and verification conventions.
 - Planning and implementing a mobile-first application shell with hash-based routing, accessible keyboard navigation, and two initial match tabs.
 - Deriving a reusable global color system.
+- Configuring Playwright with Chromium and adding an initial navigation E2E journey.
+- Adding an E2E CI gate, failure artifacts, and persistent testing guidance for future features.
 
 ## Workflow
 
@@ -34,3 +36,4 @@ The main prompts covered two stages:
 2. **Baseline implementation** — applying the approved setup, replacing the default template, adding an initial test, and documenting the project.
 3. **Pre-commit audit** — reviewing dependency reproducibility, Node.js compatibility, quality tooling, CI, documentation, Git status, and the complete baseline diff before the initial commit. Approved findings were then addressed.
 4. **Navigation shell** — adapting the routing and tab architecture, using GitHub Pages-compatible hash routing, and adding responsive and accessible navigation tests.
+5. **E2E quality gate** — adding Playwright configuration, a browser-level navigation flow, CI enforcement, and guidance that separates unit, component, and E2E responsibilities.
