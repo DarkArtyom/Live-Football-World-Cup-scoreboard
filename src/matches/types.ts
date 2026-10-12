@@ -61,8 +61,7 @@ export const ScoreboardStatus = {
   ERROR: "error",
 } as const;
 
-export type ScoreboardStatus =
-  (typeof ScoreboardStatus)[keyof typeof ScoreboardStatus];
+export type ScoreboardStatus = ConstType<typeof ScoreboardStatus>;
 
 export interface Scoreboard {
   matches: Map<number, Match>;

@@ -17,8 +17,7 @@ export const ScoreboardStatus = {
   ERROR: "error",
 } as const;
 
-export type ScoreboardStatus =
-  (typeof ScoreboardStatus)[keyof typeof ScoreboardStatus];
+export type ScoreboardStatus = ConstType<typeof ScoreboardStatus>;
 
 export const initialState: ScoreboardState = {
   matches: new Map(),

@@ -3,7 +3,7 @@ export const MatchStatus = {
   FINISHED: "finished",
 } as const;
 
-export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus];
+export type MatchStatus = ConstType<typeof MatchStatus>;
 
 export const MatchEditorMode = {
   CREATE: "create",
@@ -15,11 +15,9 @@ export const MatchRowAction = {
   FINISH: "finish",
 } as const;
 
-export type MatchRowAction =
-  (typeof MatchRowAction)[keyof typeof MatchRowAction];
+export type MatchRowAction = ConstType<typeof MatchRowAction>;
 
-export type MatchEditorMode =
-  (typeof MatchEditorMode)[keyof typeof MatchEditorMode];
+export type MatchEditorMode = ConstType<typeof MatchEditorMode>;
 
 export const HistoryAction = {
   MATCH_CREATED: "match-created",
@@ -27,7 +25,7 @@ export const HistoryAction = {
   MATCH_FINISHED: "match-finished",
 } as const;
 
-export type HistoryAction = (typeof HistoryAction)[keyof typeof HistoryAction];
+export type HistoryAction = ConstType<typeof HistoryAction>;
 
 export const Messages = {
   BOTH_TEAM_NAMES_REQUIRED: "Both team names are required.",
