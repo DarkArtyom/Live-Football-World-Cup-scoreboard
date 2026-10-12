@@ -89,6 +89,26 @@ GitHub at least once.
   view without changing its score.
 - Match state is kept in memory and resets when the page is reloaded. Persistent
   storage is outside the current exercise scope.
+
+### Changelog
+
+The Changelog tab records each successful match operation in the shared
+scoreboard state:
+
+- Match creation stores the new match ID, teams, start time, and the initial
+  `0–0` score.
+- A score update stores the previous score and the saved score, including a
+  save that does not change the numbers.
+- Finishing a match stores the status transition from in progress to finished.
+  Invalid input, and updates or finishes that do not apply to an active match,
+  are not recorded.
+
+Events are appended and shown newest first. When two events share a timestamp,
+the later event ID comes first. The date and time are captured when the
+operation happens and rendered in `en-GB` as `12 Oct 2026, 10:42:15`. Changelog
+entries stay available while navigating between tabs and reset with the rest of
+the in-memory scoreboard on reload.
+
 - The match table renders every visible row. Row virtualization is unnecessary
   for the expected matchday size. If the table later holds a large list,
   virtualization can be added without changing the match operations.

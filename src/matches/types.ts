@@ -42,8 +42,51 @@ export interface UpdateScoreInput {
   awayScore: number;
 }
 
+export const HistoryAction = {
+  MATCH_CREATED: "match-created",
+  SCORE_UPDATED: "score-updated",
+  MATCH_FINISHED: "match-finished",
+} as const;
+
+export type HistoryAction = (typeof HistoryAction)[keyof typeof HistoryAction];
+
+interface HistoryEventBase {
+  id: number;
+  matchId: number;
+  homeTeam: string;
+  awayTeam: string;
+  occurredAt: number;
+}
+
+export interface MatchCreatedEvent extends HistoryEventBase {
+  type: typeof HistoryAction.MATCH_CREATED;
+  homeScore: number;
+  awayScore: number;
+}
+
+export interface ScoreUpdatedEvent extends HistoryEventBase {
+  type: typeof HistoryAction.SCORE_UPDATED;
+  previousHomeScore: number;
+  previousAwayScore: number;
+  homeScore: number;
+  awayScore: number;
+}
+
+export interface MatchFinishedEvent extends HistoryEventBase {
+  type: typeof HistoryAction.MATCH_FINISHED;
+}
+
+export type HistoryEvent =
+  MatchCreatedEvent | ScoreUpdatedEvent | MatchFinishedEvent;
+
+export interface HistoryRecord {
+  events: HistoryEvent[];
+  nextEventId: number;
+}
+
 export interface Scoreboard {
   matches: Match[];
+  events: HistoryEvent[];
   addMatch: (input: CreateMatchInput) => void;
   updateScore: (matchId: number, score: UpdateScoreInput) => void;
   finish: (matchId: number) => void;

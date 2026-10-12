@@ -35,8 +35,9 @@ separated between business operations, shared state, and UI components, and
 the completed workflow was verified with unit, component, and end-to-end
 tests. Its dedicated Git commit is still pending.
 
-The Activity/History tab will be implemented in its own atomic feature commit
-so its event model, UI, tests, and documentation remain clearly separated.
+The Changelog tab was implemented as its own feature: history events are
+appended from successful match creation, score updates, and match completion
+in the shared scoreboard state, then shown newest first.
 
 ## Prompt History
 
@@ -52,3 +53,6 @@ The main prompts covered two stages:
    the finished-matches view, shared Context state exposed through a custom
    hook, reusable UI components, and unit, component, and E2E coverage.
 7. **Match-management follow-up** — improving modal behavior with the native <dialog> element and showModal(), narrowing the Match ID column, centralizing scoreboard action types, and refining row-click handling for editing and finishing matches.
+8. **Changelog** — recording match creation, score updates, and match completion in the shared scoreboard state, and showing those events newest first on a third tab. The changelog table defines its columns separately and renders them through a dedicated header, using the same sticky table header as the match tables.
+9. **Requirements and Code Review** — The prompt requested a comprehensive review covering memory leaks, unnecessary re-renders, security, test coverage, and E2E tests. The code was reviewed by both AI and a human, followed by manual browser verification of validation, score ordering, search, finish confirmation, the finished matches view, changelog ordering across tabs, reset behavior on page reload, and the sticky changelog header.
+10. **History event duplication** — the shared match identity and timestamp fields are now written by one helper. Match sorting, changelog sorting, and the two table headers stay separate because their rules differ.

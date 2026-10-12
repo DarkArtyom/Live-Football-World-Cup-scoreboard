@@ -4,6 +4,7 @@ import App from "../App";
 import FinishedMatchesPage from "../pages/FinishedMatchesPage";
 import MatchesInProgressPage from "../pages/MatchesInProgressPage";
 import { ROUTER_PATHS } from "./paths";
+import ChangelogPage from "../pages/ChangelogPage";
 
 export const appRoutes: RouteObject[] = [
   {
@@ -21,6 +22,10 @@ export const appRoutes: RouteObject[] = [
       {
         path: ROUTER_PATHS.finished,
         element: <FinishedMatchesPage />,
+      },
+      {
+        path: ROUTER_PATHS.changelog,
+        element: <ChangelogPage />,
       },
       {
         path: "*",

@@ -38,4 +38,17 @@ test("navigates between scoreboard views", async ({ page }) => {
   await page.goForward();
   await expect(page).toHaveURL(/#\/matches$/);
   await expect(matchesTab).toHaveAttribute("aria-selected", "true");
+
+  const changelogTab = page.getByRole("tab", { name: "Changelog" });
+  await changelogTab.click();
+  await expect(page).toHaveURL(/#\/changelog$/);
+  await expect(changelogTab).toHaveAttribute("aria-selected", "true");
+  await expect(
+    page.getByRole("heading", { level: 2, name: "Changelog" }),
+  ).toBeVisible();
+
+  await changelogTab.press("ArrowRight");
+  await expect(page).toHaveURL(/#\/matches$/);
+  await expect(matchesTab).toBeFocused();
+  await expect(matchesTab).toHaveAttribute("aria-selected", "true");
 });
