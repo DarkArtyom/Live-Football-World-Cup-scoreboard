@@ -19,6 +19,23 @@ const HISTORY_DATE_TIME_FORMATTER = new Intl.DateTimeFormat("en-GB", {
 const formatScore = (homeScore: number, awayScore: number) =>
   `${homeScore}–${awayScore}`;
 
+type HistoryEventDetails =
+  | {
+      type: typeof HistoryAction.MATCH_CREATED;
+      homeScore: number;
+      awayScore: number;
+    }
+  | {
+      type: typeof HistoryAction.SCORE_UPDATED;
+      previousHomeScore: number;
+      previousAwayScore: number;
+      homeScore: number;
+      awayScore: number;
+    }
+  | {
+      type: typeof HistoryAction.MATCH_FINISHED;
+    };
+
 const unchangedRecord = (
   events: HistoryEvent[],
   nextEventId: number,
@@ -27,26 +44,37 @@ const unchangedRecord = (
   nextEventId,
 });
 
-export const recordMatchCreated = (
+const appendHistoryEvent = (
   events: HistoryEvent[],
   match: Match,
+  occurredAt: number,
   eventId: number,
+  details: HistoryEventDetails,
 ): HistoryRecord => ({
   events: [
     ...events,
     {
       id: eventId,
-      type: HistoryAction.MATCH_CREATED,
       matchId: match.id,
       homeTeam: match.homeTeam,
       awayTeam: match.awayTeam,
-      occurredAt: match.startedAt,
-      homeScore: match.homeScore,
-      awayScore: match.awayScore,
+      occurredAt,
+      ...details,
     },
   ],
   nextEventId: eventId + 1,
 });
+
+export const recordMatchCreated = (
+  events: HistoryEvent[],
+  match: Match,
+  eventId: number,
+): HistoryRecord =>
+  appendHistoryEvent(events, match, match.startedAt, eventId, {
+    type: HistoryAction.MATCH_CREATED,
+    homeScore: match.homeScore,
+    awayScore: match.awayScore,
+  });
 
 export const recordScoreUpdated = (
   events: HistoryEvent[],
@@ -59,24 +87,13 @@ export const recordScoreUpdated = (
     return unchangedRecord(events, eventId);
   }
 
-  return {
-    events: [
-      ...events,
-      {
-        id: eventId,
-        type: HistoryAction.SCORE_UPDATED,
-        matchId: match.id,
-        homeTeam: match.homeTeam,
-        awayTeam: match.awayTeam,
-        occurredAt,
-        previousHomeScore: match.homeScore,
-        previousAwayScore: match.awayScore,
-        homeScore: score.homeScore,
-        awayScore: score.awayScore,
-      },
-    ],
-    nextEventId: eventId + 1,
-  };
+  return appendHistoryEvent(events, match, occurredAt, eventId, {
+    type: HistoryAction.SCORE_UPDATED,
+    previousHomeScore: match.homeScore,
+    previousAwayScore: match.awayScore,
+    homeScore: score.homeScore,
+    awayScore: score.awayScore,
+  });
 };
 
 export const recordMatchFinished = (
@@ -89,20 +106,9 @@ export const recordMatchFinished = (
     return unchangedRecord(events, eventId);
   }
 
-  return {
-    events: [
-      ...events,
-      {
-        id: eventId,
-        type: HistoryAction.MATCH_FINISHED,
-        matchId: match.id,
-        homeTeam: match.homeTeam,
-        awayTeam: match.awayTeam,
-        occurredAt,
-      },
-    ],
-    nextEventId: eventId + 1,
-  };
+  return appendHistoryEvent(events, match, occurredAt, eventId, {
+    type: HistoryAction.MATCH_FINISHED,
+  });
 };
 
 export const sortHistoryEvents = (events: HistoryEvent[]) =>
