@@ -1,6 +1,7 @@
-import styles from "../Matches.module.css";
-import { MatchRowAction, type Match } from "../types";
+import { MatchRowAction } from "../constants";
+import { type Match } from "../types";
 import { CheckIcon, EditIcon } from "./ActionIcons";
+import styles from "../MatchTable/Matches.module.css";
 
 interface ActionsCellProps {
   match: Match;

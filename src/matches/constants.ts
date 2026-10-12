@@ -1,3 +1,34 @@
+export const MatchStatus = {
+  IN_PROGRESS: "in-progress",
+  FINISHED: "finished",
+} as const;
+
+export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus];
+
+export const MatchEditorMode = {
+  CREATE: "create",
+  EDIT: "edit",
+} as const;
+
+export const MatchRowAction = {
+  EDIT: "edit",
+  FINISH: "finish",
+} as const;
+
+export type MatchRowAction =
+  (typeof MatchRowAction)[keyof typeof MatchRowAction];
+
+export type MatchEditorMode =
+  (typeof MatchEditorMode)[keyof typeof MatchEditorMode];
+
+export const HistoryAction = {
+  MATCH_CREATED: "match-created",
+  SCORE_UPDATED: "score-updated",
+  MATCH_FINISHED: "match-finished",
+} as const;
+
+export type HistoryAction = (typeof HistoryAction)[keyof typeof HistoryAction];
+
 export const Messages = {
   BOTH_TEAM_NAMES_REQUIRED: "Both team names are required.",
   TEAMS_MUST_BE_DIFFERENT: "Home and away teams must be different.",
@@ -14,4 +45,7 @@ export const Messages = {
   CHANGELOG_EMPTY: "No changelog entries yet.",
   FINISH_MATCH_CONFIRMATION: (matchId: number) =>
     `Are you sure you want to finish match #${matchId}?`,
+  LOADING_MATCHES: "Loading matches",
+  MATCHES_LOAD_FAILED: "Could not load matches.",
+  TRY_AGAIN: "Try again",
 } as const;

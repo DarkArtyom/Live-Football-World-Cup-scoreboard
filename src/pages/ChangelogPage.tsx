@@ -1,6 +1,6 @@
 import { ChangelogTable } from "../changelog/ChangelogTable";
 import { useScoreboard } from "../context/scoreboard/useScoreboard";
-import { sortHistoryEvents } from "../matches/history";
+import { sortHistoryEvents } from "../matches/historyChanges/history";
 
 const ChangelogPage = () => {
   const { events } = useScoreboard();

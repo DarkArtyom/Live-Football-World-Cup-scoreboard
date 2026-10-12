@@ -1,0 +1,61 @@
+.tableScroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.375rem;
+}
+
+.table {
+  width: 100%;
+  min-width: 48rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--color-heading);
+  font-size: 0.875rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.table th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  color: var(--color-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--color-background);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.idColumn {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.emptyState {
+  display: grid;
+  flex: 1;
+  min-height: 14rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  background: var(--color-background);
+  border: 0.0625rem dashed #b7bec8;
+  border-radius: 0.375rem;
+  place-items: center;
+}

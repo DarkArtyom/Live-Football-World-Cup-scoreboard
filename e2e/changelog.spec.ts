@@ -6,20 +6,20 @@ test("records match creation, score updates, and completion in the changelog", a
   await page.goto("./#/matches");
 
   await page.getByRole("button", { name: "Create match" }).click();
-  await page.getByLabel("Home team").fill("Mexico");
-  await page.getByLabel("Away team").fill("Canada");
+  await page.getByLabel("Home team").fill("Japan");
+  await page.getByLabel("Away team").fill("Senegal");
   await page
     .getByRole("dialog", { name: "Create match" })
     .getByRole("button", { name: "Create match", exact: true })
     .click();
 
-  const matchRow = page.getByRole("row", { name: /#1 Mexico Canada/ });
-  await matchRow.getByRole("button", { name: "Edit match #1" }).click();
+  const matchRow = page.getByRole("row", { name: /Japan Senegal/ });
+  await matchRow.getByRole("button", { name: /Edit match #/ }).click();
   await page.getByLabel("Home team score").fill("2");
   await page.getByLabel("Away team score").fill("1");
   await page.getByRole("button", { name: "Save changes" }).click();
 
-  await matchRow.getByRole("button", { name: "Finish match #1" }).click();
+  await matchRow.getByRole("button", { name: /Finish match #/ }).click();
   await page.getByRole("button", { name: "Yes" }).click();
 
   await page.getByRole("tab", { name: "Changelog" }).click();
@@ -40,8 +40,7 @@ test("records match creation, score updates, and completion in the changelog", a
   await expect(rows.nth(1)).toContainText("In Progress → Finished");
   await expect(rows.nth(2)).toContainText("Score Updated");
   await expect(rows.nth(2)).toContainText("0–0 → 2–1");
-  await expect(rows.nth(3)).toContainText("#1");
-  await expect(rows.nth(3)).toContainText("Mexico vs Canada");
+  await expect(rows.nth(3)).toContainText("Japan vs Senegal");
   await expect(rows.nth(3)).toContainText("Match Created");
   await expect(rows.nth(3)).toContainText("Initial score: 0–0");
 

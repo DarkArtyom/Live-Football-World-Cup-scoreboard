@@ -1,15 +1,39 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { fetchInitialMatches } from "./api/fetchInitialMatches";
+import { type Match } from "./matches/types";
 import { appRoutes } from "./router/router";
+import { MatchStatus } from "./matches/constants";
+
+vi.mock("./api/fetchInitialMatches", () => ({
+  fetchInitialMatches: vi.fn(() => Promise.resolve([])),
+}));
 
 describe("App", () => {
+  beforeEach(() => {
+    vi.mocked(fetchInitialMatches).mockReset();
+    vi.mocked(fetchInitialMatches).mockResolvedValue([]);
+  });
+
   const renderApp = (initialEntry = "/") => {
     const router = createMemoryRouter(appRoutes, {
       initialEntries: [initialEntry],
     });
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
 
-    render(<RouterProvider router={router} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>,
+    );
 
     return router;
   };
@@ -56,7 +80,7 @@ describe("App", () => {
     );
 
     expect(
-      screen.getByRole("heading", { name: /finished matches/i }),
+      await screen.findByRole("heading", { name: /finished matches/i }),
     ).toBeVisible();
     expect(
       screen.getByRole("tab", { name: /finished matches/i }),
@@ -188,5 +212,53 @@ describe("App", () => {
 
     expect(screen.getAllByRole("row").slice(1)).toHaveLength(3);
     expect(screen.getByText("0–0 → 2–1")).toBeVisible();
+  });
+
+  it("shows a loader and then the loaded matches", async () => {
+    let resolveMatches: (matches: Match[]) => void = () => undefined;
+    vi.mocked(fetchInitialMatches).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveMatches = resolve;
+        }),
+    );
+    renderApp("/matches");
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      /loading matches/i,
+    );
+
+    resolveMatches([
+      {
+        id: 7,
+        homeTeam: "Mexico",
+        awayTeam: "Canada",
+        homeScore: 0,
+        awayScore: 5,
+        status: MatchStatus.IN_PROGRESS,
+        startedAt: 100,
+      },
+    ]);
+
+    expect(
+      await screen.findByRole("row", { name: /#7 mexico canada/i }),
+    ).toBeVisible();
+  });
+
+  it("shows a load error and retries", async () => {
+    const user = userEvent.setup();
+    vi.mocked(fetchInitialMatches).mockRejectedValueOnce(
+      new Error("Could not load matches."),
+    );
+    renderApp("/matches");
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      /could not load matches/i,
+    );
+
+    vi.mocked(fetchInitialMatches).mockResolvedValueOnce([]);
+    await user.click(screen.getByRole("button", { name: /try again/i }));
+
+    expect(await screen.findByText(/no matches in progress/i)).toBeVisible();
   });
 });

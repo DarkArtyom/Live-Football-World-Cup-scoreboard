@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
+import { ScoreboardGate } from "./context/scoreboard/ScoreboardGate";
 import { ScoreboardProvider } from "./context/scoreboard/ScoreboardProvider";
 import NavigationTabs from "./navigation/NavigationTabs";
 
@@ -18,7 +19,9 @@ const App = () => {
       </header>
       <main className="app__content" id="main-content">
         <ScoreboardProvider>
-          <Outlet />
+          <ScoreboardGate>
+            <Outlet />
+          </ScoreboardGate>
         </ScoreboardProvider>
       </main>
     </div>

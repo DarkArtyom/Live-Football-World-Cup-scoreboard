@@ -1,7 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MatchTable } from "./MatchTable";
-import { MatchStatus, type Match } from "./types";
+import { MatchStatus } from "../constants";
+import { type Match } from "../types";
 
 const activeMatch: Match = {
   id: 7,
@@ -13,9 +14,17 @@ const activeMatch: Match = {
   startedAt: new Date("2026-10-12T08:30:15Z").getTime(),
 };
 
+const matchesById = new Map([[activeMatch.id, activeMatch]]);
+
 describe("MatchTable", () => {
   it("renders match data and the reusable columns", () => {
-    render(<MatchTable emptyMessage="No matches" matches={[activeMatch]} />);
+    render(
+      <MatchTable
+        emptyMessage="No matches"
+        matches={[activeMatch]}
+        matchesById={matchesById}
+      />,
+    );
 
     expect(screen.getByRole("columnheader", { name: "Started" })).toBeVisible();
     expect(screen.getByRole("row", { name: /#7 Spain Brazil/ })).toBeVisible();
@@ -32,6 +41,7 @@ describe("MatchTable", () => {
       <MatchTable
         emptyMessage="No matches"
         matches={[activeMatch]}
+        matchesById={matchesById}
         onEdit={onEdit}
         onFinish={onFinish}
       />,

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useScoreboard } from "../context/scoreboard/useScoreboard";
 import { MatchEditorModal } from "../matches/MatchEditorModal/MatchEditorModal";
-import { MatchTable } from "../matches/MatchTable";
+import { MatchTable } from "../matches/MatchTable/MatchTable";
 import { MatchesToolbar } from "../matches/MatchesToolbar/MatchesToolbar";
 import { Messages } from "../matches/constants";
-import { MatchEditorMode, MatchStatus, type Match } from "../matches/types";
+import { type Match } from "../matches/types";
+import { MatchEditorMode, MatchStatus } from "../matches/constants";
 import { filterMatches, sortMatchesForSummary } from "../matches/utils";
 
 const MatchesInProgressPage = () => {
@@ -12,9 +13,10 @@ const MatchesInProgressPage = () => {
   const [query, setQuery] = useState("");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [matchBeingEdited, setMatchBeingEdited] = useState<Match | null>(null);
+  const matchList = Array.from(matches.values());
   const visibleMatches = filterMatches(
     sortMatchesForSummary(
-      matches.filter((match) => match.status === MatchStatus.IN_PROGRESS),
+      matchList.filter((match) => match.status === MatchStatus.IN_PROGRESS),
     ),
     query,
   );
@@ -39,12 +41,13 @@ const MatchesInProgressPage = () => {
             : Messages.NO_MATCHES_IN_PROGRESS
         }
         matches={visibleMatches}
+        matchesById={matches}
         onEdit={setMatchBeingEdited}
         onFinish={finish}
       />
       {isCreateOpen && (
         <MatchEditorModal
-          matches={matches}
+          matches={matchList}
           mode={MatchEditorMode.CREATE}
           onCreate={addMatch}
           onDismiss={() => setIsCreateOpen(false)}

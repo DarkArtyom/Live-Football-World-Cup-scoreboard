@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import styles from "../Matches.module.css";
+import tableStyles from "../../components/Table/Table.module.css";
+import styles from "../MatchTable/Matches.module.css";
 import type { Match } from "../types";
 import { getTotalGoals } from "../utils";
 import { ActionsCell } from "./ActionsCell";
@@ -41,7 +42,7 @@ export const createMatchColumns = ({
     {
       id: "id",
       title: "Match ID",
-      className: styles.idColumn,
+      className: tableStyles.idColumn,
       required: true,
       render: (match) => `#${match.id}`,
     },
