@@ -1,0 +1,284 @@
+.toolbar {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  padding: 1rem;
+  background: var(--color-background);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.375rem;
+}
+
+.searchForm {
+  display: flex;
+  flex: 1 1 32rem;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.375rem;
+  color: var(--color-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.searchField {
+  flex: 1 1 15rem;
+}
+
+.field input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.625rem;
+  color: var(--color-heading);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  background: var(--color-surface);
+  border: 0.0625rem solid #b7bec8;
+  border-radius: 0.25rem;
+}
+
+.field input:disabled {
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+.field input:focus-visible,
+.button:focus-visible,
+.iconButton:focus-visible {
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.875rem;
+  color: var(--color-heading);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 0.0625rem solid #b7bec8;
+  border-radius: 0.25rem;
+}
+
+.primaryButton {
+  color: var(--color-surface);
+  background: var(--color-blue-600);
+  border-color: var(--color-blue-600);
+}
+
+.primaryButton:hover {
+  background: #1d57b5;
+}
+
+.secondaryButton:hover {
+  background: var(--color-background);
+}
+
+.linkButton {
+  color: var(--color-blue-600);
+  background: transparent;
+  border-color: transparent;
+}
+
+.smallButton {
+  min-height: 1.875rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+}
+
+.emptyState {
+  display: grid;
+  flex: 1;
+  min-height: 14rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  background: var(--color-background);
+  border: 0.0625rem dashed #b7bec8;
+  border-radius: 0.375rem;
+  place-items: center;
+}
+
+.tableScroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.375rem;
+}
+
+.table {
+  width: 100%;
+  min-width: 48rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--color-heading);
+  font-size: 0.875rem;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 0.0625rem solid var(--color-border);
+}
+
+.table th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  color: var(--color-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--color-background);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.editableRow {
+  cursor: pointer;
+}
+
+.editableRow:hover {
+  background: #f5f8fd;
+}
+
+.idColumn {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.actionsColumn {
+  position: sticky !important;
+  z-index: 2 !important;
+  right: 0;
+  width: 6rem;
+  background: var(--color-surface);
+}
+
+th.actionsColumn {
+  z-index: 3 !important;
+  background: var(--color-background);
+}
+
+.editableRow:hover .actionsColumn {
+  background: #f5f8fd;
+}
+
+.score {
+  color: var(--color-heading);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.totalGoals {
+  margin-left: 0.5rem;
+  color: var(--color-text);
+  font-size: 0.75rem;
+}
+
+.table time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tableActions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.iconButton {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.375rem;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  place-items: center;
+}
+
+.iconButton:hover {
+  background: #e7eef9;
+}
+
+.iconButton svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: currentcolor;
+}
+
+.successIcon {
+  color: #167345;
+}
+
+.confirmationPopover {
+  position: fixed;
+  z-index: 30;
+  display: grid;
+  width: 15rem;
+  transform: translate(-100%, -50%);
+  gap: 0.625rem;
+  padding: 0.75rem;
+  color: var(--color-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: var(--color-surface);
+  border: 0.0625rem solid #b7bec8;
+  border-radius: 0.375rem;
+}
+
+.confirmationActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.formError {
+  margin-top: 1rem !important;
+  color: #a51d28 !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@media (max-width: 36rem) {
+  .toolbar,
+  .searchForm {
+    align-items: stretch;
+  }
+
+  .toolbar > .button,
+  .searchForm > .button {
+    flex: 1;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}

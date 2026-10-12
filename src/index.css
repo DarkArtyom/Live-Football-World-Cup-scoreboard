@@ -28,15 +28,17 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   min-width: 20rem;
-  min-height: 100svh;
+  overflow: hidden;
   background: var(--color-background);
-}
-
-#root {
-  min-height: 100svh;
 }
 
 a {

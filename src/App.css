@@ -1,5 +1,8 @@
 .app {
-  min-height: 100svh;
+  display: flex;
+  height: 100svh;
+  overflow: hidden;
+  flex-direction: column;
   background: var(--color-background);
 }
 
@@ -21,6 +24,7 @@
 }
 
 .app__header {
+  flex-shrink: 0;
   color: var(--color-surface);
   background: var(--color-navy-950);
 }
@@ -51,14 +55,23 @@
 }
 
 .app__content {
+  display: flex;
+  flex: 1;
   width: min(100%, var(--content-width));
+  min-height: 0;
   margin: 0 auto;
   padding: 1rem;
+  overflow: hidden;
 }
 
 .page {
-  min-height: 10rem;
+  display: flex;
+  width: 100%;
+  min-height: 0;
   padding: 1rem;
+  overflow: hidden;
+  flex: 1;
+  flex-direction: column;
   background: var(--color-surface);
   border: 0.0625rem solid var(--color-border);
   border-radius: 0.375rem;
@@ -66,6 +79,7 @@
 }
 
 .page h2 {
+  flex-shrink: 0;
   margin: 0 0 0.5rem;
   color: var(--color-heading);
   font-size: clamp(1.25rem, 5vw, 1.5rem);

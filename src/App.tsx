@@ -1,8 +1,9 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
+import { ScoreboardProvider } from "./context/scoreboard/ScoreboardProvider";
 import NavigationTabs from "./navigation/NavigationTabs";
 
-function App() {
+const App = () => {
   return (
     <div className="app">
       <a className="skip-link" href="#main-content">
@@ -16,10 +17,12 @@ function App() {
         <NavigationTabs />
       </header>
       <main className="app__content" id="main-content">
-        <Outlet />
+        <ScoreboardProvider>
+          <Outlet />
+        </ScoreboardProvider>
       </main>
     </div>
   );
-}
+};
 
 export default App;

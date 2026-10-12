@@ -1,5 +1,6 @@
 .navigation {
   overflow-x: auto;
+  overflow-y: hidden;
   background: var(--color-navy-900);
   scrollbar-width: thin;
 }

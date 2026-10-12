@@ -21,7 +21,7 @@ const getNextTabIndex = (key: string, currentIndex: number) => {
   }
 };
 
-function NavigationTabs() {
+const NavigationTabs = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const tabRefs = useRef<Array<HTMLAnchorElement | null>>([]);
@@ -75,6 +75,6 @@ function NavigationTabs() {
       </div>
     </nav>
   );
-}
+};
 
 export default NavigationTabs;
