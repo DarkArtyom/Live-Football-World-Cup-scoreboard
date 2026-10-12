@@ -20,4 +20,10 @@ export const NAVIGATION_TABS = [
     path: ROUTER_PATHS.finished,
     panelId: "finished-panel",
   },
+  {
+    id: "changelog-tab",
+    label: "Changelog",
+    path: ROUTER_PATHS.changelog,
+    panelId: "changelog-panel",
+  },
 ] as const satisfies readonly NavigationTab[];

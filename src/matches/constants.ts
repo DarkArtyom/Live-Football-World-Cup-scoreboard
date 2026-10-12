@@ -11,6 +11,7 @@ export const Messages = {
   NO_ACTIVE_MATCHES_FOR_QUERY: (query: string) =>
     `No active matches found for "${query}".`,
   FINISHED_MATCHES_EMPTY: "Finished matches will appear here.",
+  CHANGELOG_EMPTY: "No changelog entries yet.",
   FINISH_MATCH_CONFIRMATION: (matchId: number) =>
     `Are you sure you want to finish match #${matchId}?`,
 } as const;
