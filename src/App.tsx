@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import { ScoreboardGate } from "./context/scoreboard/ScoreboardGate";
@@ -24,6 +25,7 @@ const App = () => {
           </ScoreboardGate>
         </ScoreboardProvider>
       </main>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useId, useState, type SyntheticEvent } from "react";
+import { toast } from "react-toastify";
 import { Button } from "../../components/Button/Button";
 import { Modal } from "../../components/Modal/Modal";
 import styles from "../MatchTable/Matches.module.css";
@@ -8,7 +9,7 @@ import {
   type UpdateScoreInput,
 } from "../types";
 import { validateNewMatch, validateScoreInput } from "../utils";
-import { MatchEditorMode } from "../constants";
+import { MatchEditorMode, Messages } from "../constants";
 
 type MatchEditorModalProps = {
   onDismiss: () => void;
@@ -50,10 +51,12 @@ export const MatchEditorModal = (props: MatchEditorModalProps) => {
 
       if (validationError) {
         setError(validationError);
+        toast.error(validationError);
         return;
       }
 
       props.onCreate({ homeTeam, awayTeam });
+      toast.success(Messages.MATCH_CREATED);
       onDismiss();
       return;
     }
@@ -62,10 +65,12 @@ export const MatchEditorModal = (props: MatchEditorModalProps) => {
 
     if (!scoreValidation.isValid) {
       setError(scoreValidation.error);
+      toast.error(scoreValidation.error);
       return;
     }
 
     props.onUpdate(props.match.id, scoreValidation.score);
+    toast.success(Messages.MATCH_UPDATED(props.match.id));
     onDismiss();
   };
 

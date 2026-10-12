@@ -8,6 +8,7 @@ import {
   updateMatchScore,
   validateNewMatch,
   validateScoreInput,
+  validateScoreLimit,
 } from "./utils";
 import { type Match } from "./types";
 import { MatchStatus } from "./constants";
@@ -96,6 +97,15 @@ describe("match utilities", () => {
     expect(validateScoreInput("9007199254740992", "1")).toEqual({
       isValid: false,
       error: Messages.SCORES_TOO_LARGE,
+    });
+  });
+
+  it("rejects a score above the goal limit", () => {
+    expect(validateScoreLimit(20, 20)).toBeNull();
+    expect(validateScoreLimit(21, 0)).toBe(Messages.SCORE_ABOVE_LIMIT);
+    expect(validateScoreInput("21", "0")).toEqual({
+      isValid: false,
+      error: Messages.SCORE_ABOVE_LIMIT,
     });
   });
 
