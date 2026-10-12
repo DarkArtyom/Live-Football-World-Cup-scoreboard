@@ -1,4 +1,4 @@
-import { MatchStatus, Messages } from "./constants";
+import { MatchStatus, MAX_SCORE, Messages } from "./constants";
 import {
   type CreateMatchInput,
   type Match,
@@ -98,7 +98,21 @@ export const validateScoreInput = (
     return { isValid: false, error: Messages.SCORES_TOO_LARGE };
   }
 
+  const limitError = validateScoreLimit(score.homeScore, score.awayScore);
+
+  if (limitError) {
+    return { isValid: false, error: limitError };
+  }
+
   return { isValid: true, score };
+};
+
+export const validateScoreLimit = (homeScore: number, awayScore: number) => {
+  if (homeScore > MAX_SCORE || awayScore > MAX_SCORE) {
+    return Messages.SCORE_ABOVE_LIMIT;
+  }
+
+  return null;
 };
 
 export const toMatchMap = (matches: readonly Match[]) =>

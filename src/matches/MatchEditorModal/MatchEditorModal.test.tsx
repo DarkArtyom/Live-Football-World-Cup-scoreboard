@@ -36,7 +36,7 @@ describe("MatchEditorModal", () => {
       within(dialog).getByRole("button", { name: "Create match" }),
     );
 
-    expect(screen.getByRole("alert")).toHaveTextContent(
+    expect(within(dialog).getByRole("alert")).toHaveTextContent(
       Messages.TEAMS_MUST_BE_DIFFERENT,
     );
     expect(onCreate).not.toHaveBeenCalled();

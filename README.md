@@ -84,13 +84,16 @@ GitHub at least once.
 - New matches start at `0:0` and receive the next local ID after the loaded set.
 - Team names are required, must differ, and a team may participate in only one
   active match at a time.
-- Scores are non-negative whole numbers.
+- Scores are non-negative whole numbers, and each score is at most 20.
 - Matches in progress and finished matches use the same order: total goals,
   descending. Ties are ordered by the most recently started match.
 - Clicking a match row opens the editor on purpose. A row button runs only its
   own action: edit opens the editor, and finish asks for confirmation.
 - Finishing a match requires confirmation and moves it to the Finished matches
-  view without changing its score.
+  view without changing its score. Confirming the finish shows a success toast
+  with the match id. Creating a match and saving a score each show a success
+  toast. The score toast includes that match id.
+  A validation failure and a failed initial load also show an error toast.
 - Match state is kept in memory after the initial load and resets when the page
   is reloaded. Persistent storage is outside the current exercise scope.
 

@@ -252,9 +252,12 @@ describe("App", () => {
     );
     renderApp("/matches");
 
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      /could not load matches/i,
-    );
+    const alerts = await screen.findAllByRole("alert");
+    expect(
+      alerts.some((alert) =>
+        /could not load matches/i.test(alert.textContent ?? ""),
+      ),
+    ).toBe(true);
 
     vi.mocked(fetchInitialMatches).mockResolvedValueOnce([]);
     await user.click(screen.getByRole("button", { name: /try again/i }));

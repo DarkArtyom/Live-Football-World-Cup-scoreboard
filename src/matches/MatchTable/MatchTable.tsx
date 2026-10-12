@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { toast } from "react-toastify";
 import {
   Table,
   TableCell,
@@ -7,6 +8,7 @@ import {
   TableRow,
 } from "../../components/Table/Table";
 import { createMatchColumns } from "../columns/columns";
+import { Messages } from "../constants";
 import { FinishMatchConfirmation } from "../FinishMatchConfirmation/FinishMatchConfirmation";
 import styles from "./Matches.module.css";
 import { useMatchTable } from "../useMatchTable";
@@ -74,6 +76,7 @@ export const MatchTable = ({
           matchId={pendingFinish.matchId}
           onConfirm={() => {
             onFinish(pendingFinish.matchId);
+            toast.success(Messages.MATCH_FINISHED(pendingFinish.matchId));
             clearPendingFinish();
           }}
           onDismiss={clearPendingFinish}
