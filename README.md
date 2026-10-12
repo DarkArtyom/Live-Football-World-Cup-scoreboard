@@ -45,6 +45,14 @@ acceptable compromise for a static GitHub Pages deployment.
 The routing strategy can be revisited if the application
 moves to hosting with native SPA fallback support.
 
+### Shared Match State
+
+ScoreboardProvider owns the shared match state and exposes it through the typed useScoreboard hook.
+
+React Context is used because multiple routes, including In Progress, Finished, and the planned Activity/History tab, need to access and update the same match state throughout its lifecycle.
+
+A custom hook alone would not provide shared state, as each call would create an independent state instance. The provider ensures a single shared state source, while useScoreboard encapsulates Context access behind a feature-specific API.
+
 ### End-to-End Testing
 
 Install the Chromium browser used by Playwright:
@@ -66,6 +74,25 @@ workflow only runs after the complete CI workflow succeeds. To prevent merging
 a failing pull request, configure `CI / quality` and `CI / e2e` as required
 checks in the `main` branch protection rules after both checks have run on
 GitHub at least once.
+
+### Match Management
+
+- New matches start at `0:0` and receive an incrementing local ID.
+- Team names are required, must differ, and a team may participate in only one
+  active match at a time.
+- Scores are non-negative whole numbers.
+- Matches in progress and finished matches use the same order: total goals,
+  descending. Ties are ordered by the most recently started match.
+- Clicking a match row opens the editor on purpose. A row button runs only its
+  own action: edit opens the editor, and finish asks for confirmation.
+- Finishing a match requires confirmation and moves it to the Finished matches
+  view without changing its score.
+- Match state is kept in memory and resets when the page is reloaded. Persistent
+  storage is outside the current exercise scope.
+- The match table renders every visible row. Row virtualization is unnecessary
+  for the expected matchday size. If the table later holds a large list,
+  virtualization can be added without changing the match operations.
+- Memoization hooks are used only when there is a concrete need, such as avoiding expensive recalculations or preserving references for memoized child components. They are not added by default.
 
 ## Available Scripts
 

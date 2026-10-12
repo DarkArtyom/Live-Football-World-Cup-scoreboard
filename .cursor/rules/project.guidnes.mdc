@@ -16,6 +16,14 @@ alwaysApply: true
 ## 2. TypeScript and React
 
 - Use TypeScript in strict mode.
+- Declare functions and React components as `const` arrow functions. Type component props on the parameters. Do not use `function` declarations or `React.FC`.
+
+```tsx
+export const MatchTable = ({ matches }: MatchTableProps) => {
+  return <table>{matches.length}</table>;
+};
+```
+
 - Avoid `any`. Use a specific type, `unknown`, or generics where appropriate.
 - Keep components focused on rendering and user interaction.
 - Extract reusable logic into functions or custom hooks when this improves clarity.

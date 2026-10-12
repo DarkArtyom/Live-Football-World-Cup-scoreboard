@@ -1,4 +1,24 @@
-function MatchesInProgressPage() {
+import { useState } from "react";
+import { useScoreboard } from "../context/scoreboard/useScoreboard";
+import { MatchEditorModal } from "../matches/MatchEditorModal/MatchEditorModal";
+import { MatchTable } from "../matches/MatchTable";
+import { MatchesToolbar } from "../matches/MatchesToolbar/MatchesToolbar";
+import { Messages } from "../matches/constants";
+import { MatchEditorMode, MatchStatus, type Match } from "../matches/types";
+import { filterMatches, sortMatchesForSummary } from "../matches/utils";
+
+const MatchesInProgressPage = () => {
+  const { matches, addMatch, updateScore, finish } = useScoreboard();
+  const [query, setQuery] = useState("");
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [matchBeingEdited, setMatchBeingEdited] = useState<Match | null>(null);
+  const visibleMatches = filterMatches(
+    sortMatchesForSummary(
+      matches.filter((match) => match.status === MatchStatus.IN_PROGRESS),
+    ),
+    query,
+  );
+
   return (
     <section
       aria-labelledby="matches-tab"
@@ -7,9 +27,39 @@ function MatchesInProgressPage() {
       role="tabpanel"
     >
       <h2 id="matches-page-title">Matches in progress</h2>
-      <p>Active World Cup matches will appear here.</p>
+      <MatchesToolbar
+        onCreate={() => setIsCreateOpen(true)}
+        onSearch={setQuery}
+        query={query}
+      />
+      <MatchTable
+        emptyMessage={
+          query
+            ? Messages.NO_ACTIVE_MATCHES_FOR_QUERY(query)
+            : Messages.NO_MATCHES_IN_PROGRESS
+        }
+        matches={visibleMatches}
+        onEdit={setMatchBeingEdited}
+        onFinish={finish}
+      />
+      {isCreateOpen && (
+        <MatchEditorModal
+          matches={matches}
+          mode={MatchEditorMode.CREATE}
+          onCreate={addMatch}
+          onDismiss={() => setIsCreateOpen(false)}
+        />
+      )}
+      {matchBeingEdited && (
+        <MatchEditorModal
+          match={matchBeingEdited}
+          mode={MatchEditorMode.EDIT}
+          onDismiss={() => setMatchBeingEdited(null)}
+          onUpdate={updateScore}
+        />
+      )}
     </section>
   );
-}
+};
 
 export default MatchesInProgressPage;
