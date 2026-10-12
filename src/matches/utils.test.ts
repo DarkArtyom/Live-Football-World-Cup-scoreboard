@@ -4,11 +4,13 @@ import {
   filterMatches,
   finishMatch,
   sortMatchesForSummary,
+  toMatchMap,
   updateMatchScore,
   validateNewMatch,
   validateScoreInput,
 } from "./utils";
-import { MatchStatus, type Match } from "./types";
+import { type Match } from "./types";
+import { MatchStatus } from "./constants";
 
 const match = (overrides: Partial<Match> = {}): Match => ({
   id: 1,
@@ -23,7 +25,7 @@ const match = (overrides: Partial<Match> = {}): Match => ({
 
 describe("match utilities", () => {
   it("creates a match with a zero score without mutating the source", () => {
-    const source: Match[] = [];
+    const source = new Map<number, Match>();
     const result = createMatch(
       source,
       { homeTeam: " Mexico ", awayTeam: " Canada " },
@@ -31,15 +33,15 @@ describe("match utilities", () => {
       200,
     );
 
-    expect(source).toEqual([]);
-    expect(result).toEqual([
+    expect(source.size).toBe(0);
+    expect(result.get(4)).toEqual(
       match({
         id: 4,
         homeTeam: "Mexico",
         awayTeam: "Canada",
         startedAt: 200,
       }),
-    ]);
+    );
   });
 
   it("rejects invalid or conflicting active teams", () => {
@@ -58,15 +60,20 @@ describe("match utilities", () => {
 
   it("updates only the selected active match score", () => {
     const finished = match({ id: 2, status: MatchStatus.FINISHED });
-    const source = [match(), finished];
+    const source = toMatchMap([match(), finished]);
     const result = updateMatchScore(source, 1, {
       homeScore: 2,
       awayScore: 1,
     });
+    const unchanged = updateMatchScore(source, 2, {
+      homeScore: 4,
+      awayScore: 4,
+    });
 
-    expect(result[0]).toMatchObject({ homeScore: 2, awayScore: 1 });
-    expect(result[1]).toBe(finished);
-    expect(source[0]).toMatchObject({ homeScore: 0, awayScore: 0 });
+    expect(result.get(1)).toMatchObject({ homeScore: 2, awayScore: 1 });
+    expect(result.get(2)).toBe(finished);
+    expect(source.get(1)).toMatchObject({ homeScore: 0, awayScore: 0 });
+    expect(unchanged).toBe(source);
   });
 
   it("parses valid scores and rejects malformed score input", () => {
@@ -121,16 +128,18 @@ describe("match utilities", () => {
   });
 
   it("finishes a match and supports case-insensitive free-text filtering", () => {
-    const source = [match()];
+    const active = match();
+    const source = toMatchMap([active]);
     const finished = finishMatch(source, 1, 300);
 
-    expect(finished[0]).toMatchObject({
+    expect(finished.get(1)).toMatchObject({
       status: MatchStatus.FINISHED,
       finishedAt: 300,
     });
-    expect(filterMatches(source, "CAN")).toEqual(source);
-    expect(filterMatches(source, "#1")).toEqual(source);
-    expect(filterMatches(source, "0:0")).toEqual([]);
-    expect(filterMatches(source, "3")).toEqual([]);
+    expect(source.get(1)).toBe(active);
+    expect(filterMatches([active], "CAN")).toEqual([active]);
+    expect(filterMatches([active], "#1")).toEqual([active]);
+    expect(filterMatches([active], "0:0")).toEqual([]);
+    expect(filterMatches([active], "3")).toEqual([]);
   });
 });

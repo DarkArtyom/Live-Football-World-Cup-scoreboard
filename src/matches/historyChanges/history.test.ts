@@ -8,7 +8,8 @@ import {
   recordScoreUpdated,
   sortHistoryEvents,
 } from "./history";
-import { HistoryAction, MatchStatus, type Match } from "./types";
+import { HistoryAction, MatchStatus } from "../constants";
+import { type Match } from "../types";
 
 const match = (overrides: Partial<Match> = {}): Match => ({
   id: 101,

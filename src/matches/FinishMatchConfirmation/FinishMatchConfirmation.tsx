@@ -1,7 +1,8 @@
 import { useLayoutEffect, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
+import { Button } from "../../components/Button/Button";
 import { Messages } from "../constants";
-import styles from "../Matches.module.css";
+import styles from "../MatchTable/Matches.module.css";
 
 interface FinishMatchConfirmationProps {
   matchId: number;
@@ -54,20 +55,12 @@ export const FinishMatchConfirmation = ({
     >
       <span>{Messages.FINISH_MATCH_CONFIRMATION(matchId)}</span>
       <div className={styles.confirmationActions}>
-        <button
-          className={`${styles.button} ${styles.primaryButton} ${styles.smallButton}`}
-          onClick={onConfirm}
-          type="button"
-        >
+        <Button onClick={onConfirm} size="small" variant="primary">
           Yes
-        </button>
-        <button
-          className={`${styles.button} ${styles.secondaryButton} ${styles.smallButton}`}
-          onClick={onDismiss}
-          type="button"
-        >
+        </Button>
+        <Button onClick={onDismiss} size="small" variant="secondary">
           No
-        </button>
+        </Button>
       </div>
     </div>,
     document.body,

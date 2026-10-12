@@ -1,6 +1,5 @@
-import { Messages } from "./constants";
+import { MatchStatus, Messages } from "./constants";
 import {
-  MatchStatus,
   type CreateMatchInput,
   type Match,
   type ScoreInputValidation,
@@ -102,14 +101,21 @@ export const validateScoreInput = (
   return { isValid: true, score };
 };
 
+export const toMatchMap = (matches: readonly Match[]) =>
+  new Map(matches.map((match) => [match.id, match]));
+
+export const nextMatchId = (matches: readonly Match[]) =>
+  matches.reduce((maxId, match) => Math.max(maxId, match.id), 0) + 1;
+
 export const createMatch = (
-  matches: Match[],
+  matches: Map<number, Match>,
   input: CreateMatchInput,
   id: number,
   startedAt: number,
-): Match[] => [
-  ...matches,
-  {
+): Map<number, Match> => {
+  const next = new Map(matches);
+
+  next.set(id, {
     id,
     homeTeam: normalizeTeamName(input.homeTeam),
     awayTeam: normalizeTeamName(input.awayTeam),
@@ -117,27 +123,45 @@ export const createMatch = (
     awayScore: 0,
     status: MatchStatus.IN_PROGRESS,
     startedAt,
-  },
-];
+  });
+
+  return next;
+};
 
 export const updateMatchScore = (
-  matches: Match[],
+  matches: Map<number, Match>,
   matchId: number,
   score: UpdateScoreInput,
-): Match[] =>
-  matches.map((match) =>
-    match.id === matchId && match.status === MatchStatus.IN_PROGRESS
-      ? { ...match, ...score }
-      : match,
-  );
+): Map<number, Match> => {
+  const match = matches.get(matchId);
+
+  if (!match || match.status !== MatchStatus.IN_PROGRESS) {
+    return matches;
+  }
+
+  const next = new Map(matches);
+  next.set(matchId, { ...match, ...score });
+
+  return next;
+};
 
 export const finishMatch = (
-  matches: Match[],
+  matches: Map<number, Match>,
   matchId: number,
   finishedAt: number,
-): Match[] =>
-  matches.map((match) =>
-    match.id === matchId && match.status === MatchStatus.IN_PROGRESS
-      ? { ...match, status: MatchStatus.FINISHED, finishedAt }
-      : match,
-  );
+): Map<number, Match> => {
+  const match = matches.get(matchId);
+
+  if (!match || match.status !== MatchStatus.IN_PROGRESS) {
+    return matches;
+  }
+
+  const next = new Map(matches);
+  next.set(matchId, {
+    ...match,
+    status: MatchStatus.FINISHED,
+    finishedAt,
+  });
+
+  return next;
+};

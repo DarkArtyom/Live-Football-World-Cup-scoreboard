@@ -77,7 +77,11 @@ GitHub at least once.
 
 ### Match Management
 
-- New matches start at `0:0` and receive an incrementing local ID.
+- The first view loads five in-progress matches from a fake API. A short loader
+  is shown while that request is in progress, and a failure offers a retry.
+  After loading, matches are kept in a `Map` so score updates and match
+  completion can find a match by id. The changelog stays a list of events.
+- New matches start at `0:0` and receive the next local ID after the loaded set.
 - Team names are required, must differ, and a team may participate in only one
   active match at a time.
 - Scores are non-negative whole numbers.
@@ -87,8 +91,8 @@ GitHub at least once.
   own action: edit opens the editor, and finish asks for confirmation.
 - Finishing a match requires confirmation and moves it to the Finished matches
   view without changing its score.
-- Match state is kept in memory and resets when the page is reloaded. Persistent
-  storage is outside the current exercise scope.
+- Match state is kept in memory after the initial load and resets when the page
+  is reloaded. Persistent storage is outside the current exercise scope.
 
 ### Changelog
 
@@ -112,7 +116,9 @@ the in-memory scoreboard on reload.
 - The match table renders every visible row. Row virtualization is unnecessary
   for the expected matchday size. If the table later holds a large list,
   virtualization can be added without changing the match operations.
-- Memoization hooks are used only when there is a concrete need, such as avoiding expensive recalculations or preserving references for memoized child components. They are not added by default.
+- Memoization hooks are used only when there is a concrete need. The match table
+  memoizes its column list, and the row-click handler is wrapped in `useCallback`
+  inside `useMatchTable`.
 
 ## Available Scripts
 

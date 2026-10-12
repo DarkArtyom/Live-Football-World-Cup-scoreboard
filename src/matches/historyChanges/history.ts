@@ -1,10 +1,11 @@
-import { MatchStatus, HistoryAction } from "./types";
+import { HistoryAction, MatchStatus } from "../constants";
+
 import type {
   HistoryEvent,
   HistoryRecord,
   Match,
   UpdateScoreInput,
-} from "./types";
+} from "../types";
 
 const HISTORY_DATE_TIME_FORMATTER = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",

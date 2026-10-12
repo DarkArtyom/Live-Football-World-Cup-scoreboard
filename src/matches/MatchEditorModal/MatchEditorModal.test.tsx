@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Messages } from "../constants";
-import { MatchEditorMode, MatchStatus, type Match } from "../types";
+import { MatchEditorMode, MatchStatus, Messages } from "../constants";
+import type { Match } from "../types";
 import { MatchEditorModal } from "./MatchEditorModal";
 
 const activeMatch: Match = {

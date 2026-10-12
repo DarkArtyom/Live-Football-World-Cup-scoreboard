@@ -1,7 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
 import { ChangelogTable } from "./ChangelogTable";
 import { Messages } from "../matches/constants";
-import { HistoryAction, type HistoryEvent } from "../matches/types";
+import { HistoryAction } from "../matches/constants";
+import type { HistoryEvent } from "../matches/types";
 
 const createdEvent: HistoryEvent = {
   id: 1,

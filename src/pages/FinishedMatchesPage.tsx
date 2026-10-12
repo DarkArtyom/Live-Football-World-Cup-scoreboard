@@ -1,13 +1,15 @@
 import { useScoreboard } from "../context/scoreboard/useScoreboard";
 import { Messages } from "../matches/constants";
-import { MatchTable } from "../matches/MatchTable";
-import { MatchStatus } from "../matches/types";
+import { MatchTable } from "../matches/MatchTable/MatchTable";
+import { MatchStatus } from "../matches/constants";
 import { sortMatchesForSummary } from "../matches/utils";
 
 const FinishedMatchesPage = () => {
   const { matches } = useScoreboard();
   const finishedMatches = sortMatchesForSummary(
-    matches.filter((match) => match.status === MatchStatus.FINISHED),
+    Array.from(matches.values()).filter(
+      (match) => match.status === MatchStatus.FINISHED,
+    ),
   );
 
   return (
@@ -21,6 +23,7 @@ const FinishedMatchesPage = () => {
       <MatchTable
         emptyMessage={Messages.FINISHED_MATCHES_EMPTY}
         matches={finishedMatches}
+        matchesById={matches}
       />
     </section>
   );

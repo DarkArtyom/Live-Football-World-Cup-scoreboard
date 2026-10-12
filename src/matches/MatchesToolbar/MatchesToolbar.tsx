@@ -1,5 +1,6 @@
 import { useState, type SyntheticEvent } from "react";
-import styles from "../Matches.module.css";
+import { Button } from "../../components/Button/Button";
+import styles from "../MatchTable/Matches.module.css";
 
 interface MatchesToolbarProps {
   query: string;
@@ -36,28 +37,17 @@ export const MatchesToolbar = ({
             value={draftQuery}
           />
         </label>
-        <button
-          className={`${styles.button} ${styles.primaryButton}`}
-          type="submit"
-        >
+        <Button type="submit" variant="primary">
           Search
-        </button>
-        <button
-          className={`${styles.button} ${styles.linkButton}`}
-          onClick={handleReset}
-          type="button"
-        >
+        </Button>
+        <Button onClick={handleReset} variant="link">
           Reset search
-        </button>
+        </Button>
       </form>
-      <button
-        className={`${styles.button} ${styles.primaryButton}`}
-        onClick={onCreate}
-        type="button"
-      >
+      <Button onClick={onCreate} variant="primary">
         <span aria-hidden="true">+</span>
         Create match
-      </button>
+      </Button>
     </div>
   );
 };

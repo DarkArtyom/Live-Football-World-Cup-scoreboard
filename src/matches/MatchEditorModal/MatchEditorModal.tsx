@@ -1,13 +1,14 @@
 import { useId, useState, type SyntheticEvent } from "react";
-import { Modal } from "../../components/Modal";
-import styles from "../Matches.module.css";
+import { Button } from "../../components/Button/Button";
+import { Modal } from "../../components/Modal/Modal";
+import styles from "../MatchTable/Matches.module.css";
 import {
-  MatchEditorMode,
   type CreateMatchInput,
   type Match,
   type UpdateScoreInput,
 } from "../types";
 import { validateNewMatch, validateScoreInput } from "../utils";
+import { MatchEditorMode } from "../constants";
 
 type MatchEditorModalProps = {
   onDismiss: () => void;
@@ -72,20 +73,12 @@ export const MatchEditorModal = (props: MatchEditorModalProps) => {
     <Modal
       footer={
         <>
-          <button
-            className={`${styles.button} ${styles.secondaryButton}`}
-            onClick={onDismiss}
-            type="button"
-          >
+          <Button onClick={onDismiss} variant="secondary">
             Cancel
-          </button>
-          <button
-            className={`${styles.button} ${styles.primaryButton}`}
-            form={formId}
-            type="submit"
-          >
+          </Button>
+          <Button form={formId} type="submit" variant="primary">
             {isCreateMode ? "Create match" : "Save changes"}
-          </button>
+          </Button>
         </>
       }
       onDismiss={onDismiss}

@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import styles from "../matches/Matches.module.css";
+import tableStyles from "../components/Table/Table.module.css";
 import {
   formatHistoryAction,
   formatHistoryChanges,
   formatHistoryDateTime,
   formatHistoryMatch,
-} from "../matches/history";
+} from "../matches/historyChanges/history";
 import type { HistoryEvent } from "../matches/types";
 
 export interface ChangelogColumn {
@@ -29,7 +29,7 @@ export const createChangelogColumns = (): ChangelogColumn[] => [
   {
     id: "matchId",
     title: "Match ID",
-    className: styles.idColumn,
+    className: tableStyles.idColumn,
     render: (event) => `#${event.matchId}`,
   },
   {

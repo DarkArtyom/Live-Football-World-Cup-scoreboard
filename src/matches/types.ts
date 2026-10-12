@@ -1,25 +1,4 @@
-export const MatchStatus = {
-  IN_PROGRESS: "in-progress",
-  FINISHED: "finished",
-} as const;
-
-export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus];
-
-export const MatchEditorMode = {
-  CREATE: "create",
-  EDIT: "edit",
-} as const;
-
-export const MatchRowAction = {
-  EDIT: "edit",
-  FINISH: "finish",
-} as const;
-
-export type MatchRowAction =
-  (typeof MatchRowAction)[keyof typeof MatchRowAction];
-
-export type MatchEditorMode =
-  (typeof MatchEditorMode)[keyof typeof MatchEditorMode];
+import type { HistoryAction, MatchStatus } from "./constants";
 
 export interface Match {
   id: number;
@@ -41,14 +20,6 @@ export interface UpdateScoreInput {
   homeScore: number;
   awayScore: number;
 }
-
-export const HistoryAction = {
-  MATCH_CREATED: "match-created",
-  SCORE_UPDATED: "score-updated",
-  MATCH_FINISHED: "match-finished",
-} as const;
-
-export type HistoryAction = (typeof HistoryAction)[keyof typeof HistoryAction];
 
 interface HistoryEventBase {
   id: number;
@@ -84,9 +55,21 @@ export interface HistoryRecord {
   nextEventId: number;
 }
 
+export const ScoreboardStatus = {
+  LOADING: "loading",
+  READY: "ready",
+  ERROR: "error",
+} as const;
+
+export type ScoreboardStatus =
+  (typeof ScoreboardStatus)[keyof typeof ScoreboardStatus];
+
 export interface Scoreboard {
-  matches: Match[];
+  matches: Map<number, Match>;
   events: HistoryEvent[];
+  status: ScoreboardStatus;
+  error: string | null;
+  retry: () => void;
   addMatch: (input: CreateMatchInput) => void;
   updateScore: (matchId: number, score: UpdateScoreInput) => void;
   finish: (matchId: number) => void;
